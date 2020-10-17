@@ -11,6 +11,7 @@ namespace UnityProjectTranslationTool.TranslationProject
     static partial class ProjectManager
     {
         private static StringBuilder strBuilder = new StringBuilder();
+        public static string curProjPath;
 
         /// <summary>
         /// Open a TranslationProject file and add parse the data.
@@ -19,14 +20,15 @@ namespace UnityProjectTranslationTool.TranslationProject
         public static void OpenTranslationProject(string projPath)
         {
             // Enqueue progress
-            strBuilder.Clear();
-            strBuilder.Append("Start opening translation project at: ");
-            strBuilder.Append(projPath);
-            progressQueue.Clear();
-            progressQueue.Enqueue(strBuilder.ToString());
+            //strBuilder.Clear();
+            //strBuilder.Append("Start opening translation project at: ");
+            //strBuilder.Append(projPath);
+            //progressQueue.Clear();
+            //progressQueue.Enqueue(strBuilder.ToString());
 
+            curProjPath = projPath;
             StreamReader reader = new StreamReader(projPath);
-            projectData = new ProjectData(reader.ReadLine(), projPath);
+            projectData = new ProjectData(reader.ReadLine(), reader.ReadLine());
             OpenTranslationProjectHelper(reader, projectData);
             reader.Close();
         }
@@ -71,8 +73,8 @@ namespace UnityProjectTranslationTool.TranslationProject
         public static void SaveTranslationProject(string projPath)
         {
             StreamWriter writer = new StreamWriter(File.OpenWrite(projPath));
+            writer.WriteLine(Path.GetFileNameWithoutExtension(projPath));
             writer.WriteLine(projectData.path);
-            writer.WriteLine(projectData.name);
             SaveTranslationProjectHelper(writer, projectData);
             writer.Close();
         }

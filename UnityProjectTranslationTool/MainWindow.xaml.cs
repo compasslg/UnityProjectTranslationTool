@@ -27,6 +27,7 @@ namespace UnityProjectTranslationTool
         public MainWindow()
         {
             InitializeComponent();
+            OnCurProjectStateChange(ProjectManager.projectData != null);
             //UpdateSize();
         }
 
@@ -67,22 +68,61 @@ namespace UnityProjectTranslationTool
             //ProjectManager.PrepareProgress();
             //LoadingWindow loadingWindow = new LoadingWindow();
             //loadingWindow.Show();
-            ProjectManager.OpenUnityProject(path, path);
+            ProjectManager.OpenUnityProject("Untitled", path);
             //ProjectManager.EndProgress();
             Files.ItemsSource = ProjectManager.projectData.files;
+            OnCurProjectStateChange(ProjectManager.projectData != null);
         }
 
         private void OpenTranslationProject(object sender, RoutedEventArgs e)
         {
-            LoadingWindow loadingWindow = new LoadingWindow();
-            loadingWindow.Show();
+            //LoadingWindow loadingWindow = new LoadingWindow();
+            //loadingWindow.Show();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Unity Translation Project Files (*.utp) | *.utp";
+            if(openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ProjectManager.OpenTranslationProject(openFileDialog.FileName);
+                Files.ItemsSource = ProjectManager.projectData.files;
+            }
+            OnCurProjectStateChange(ProjectManager.projectData != null);
         }
 
-        private void Files_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void Save(object sender, RoutedEventArgs e)
+        {
+            if(ProjectManager.curProjPath == null)
+            {
+                SaveAs(sender, e);
+                return;
+            }
+            ProjectManager.SaveTranslationProject(ProjectManager.curProjPath);
+        }
+
+        private void SaveAs(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Unity Translation Project Files (*.utp) | *.utp";
+            saveFileDialog.DefaultExt = "utp";
+            
+            if(saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ProjectManager.curProjPath = saveFileDialog.FileName;
+                ProjectManager.SaveTranslationProject(saveFileDialog.FileName);
+            }
+        }
+
+        private void OnSelectedFileChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             SingleFileData selected = (SingleFileData)Files.SelectedItem;
             if (selected == null) return;
             TextEntryGrid.ItemsSource = selected.texts;
+        }
+
+        private void OnCurProjectStateChange(bool enable)
+        {
+            Menu_Save.IsEnabled = enable;
+            Menu_SaveAs.IsEnabled = enable;
+            Menu_Apply.IsEnabled = enable;
         }
     }
 }

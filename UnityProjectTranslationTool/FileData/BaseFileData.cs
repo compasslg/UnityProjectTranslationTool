@@ -8,7 +8,7 @@ namespace UnityProjectTranslationTool.FileData
 {
     class BaseFileData
     {
-        public string name { get;}
+        public string name { get; set; }
         public FolderData dir;
         public BaseFileData(string name, FolderData dir)
         {
