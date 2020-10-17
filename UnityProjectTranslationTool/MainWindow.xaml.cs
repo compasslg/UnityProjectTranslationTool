@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
+using UnityProjectTranslationTool.TranslationProject;
+using UnityProjectTranslationTool.FileData;
 namespace UnityProjectTranslationTool
 {
     /// <summary>
@@ -30,13 +32,14 @@ namespace UnityProjectTranslationTool
 
         public void UpdateSize()
         {
-            double width = data_grid.Width - column_index.ActualWidth - column_line.ActualWidth;
+            double width = TextEntryGrid.Width - column_index.ActualWidth - column_line.ActualWidth;
             column_text.Width = width / 2;
             column_translation.Width = width / 2;
         }
 
         private void OpenUnityProject(object sender, RoutedEventArgs e)
         {
+
             string path;
 
             // Get path with CommonFileDialog if supported
@@ -61,13 +64,25 @@ namespace UnityProjectTranslationTool
 
             // TODO: Open InputProjWindow
 
-            TranslationProject.ProjectManager.OpenUnityProject(path, path);
-            
+            //ProjectManager.PrepareProgress();
+            //LoadingWindow loadingWindow = new LoadingWindow();
+            //loadingWindow.Show();
+            ProjectManager.OpenUnityProject(path, path);
+            //ProjectManager.EndProgress();
+            Files.ItemsSource = ProjectManager.projectData.files;
         }
 
         private void OpenTranslationProject(object sender, RoutedEventArgs e)
         {
-            
+            LoadingWindow loadingWindow = new LoadingWindow();
+            loadingWindow.Show();
+        }
+
+        private void Files_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            SingleFileData selected = (SingleFileData)Files.SelectedItem;
+            if (selected == null) return;
+            TextEntryGrid.ItemsSource = selected.texts;
         }
     }
 }

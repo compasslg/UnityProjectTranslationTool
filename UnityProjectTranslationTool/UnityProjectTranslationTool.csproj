@@ -66,14 +66,23 @@
     <Compile Include="InputProjectNameWindow.xaml.cs">
       <DependentUpon>InputProjectNameWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LoadingWindow.xaml.cs">
+      <DependentUpon>LoadingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TextFinder\TextEntry.cs" />
     <Compile Include="TextFinder\TextFinder.cs" />
-    <Compile Include="TranslationProject\ProjectData.cs" />
+    <Compile Include="FileData\BaseFileData.cs" />
+    <Compile Include="FileData\FolderData.cs" />
+    <Compile Include="FileData\ProjectData.cs" />
     <Compile Include="TranslationProject\ProjectManager.cs" />
     <Compile Include="TranslationProject\ProjectManager_UnityProject.cs" />
-    <Compile Include="TranslationProject\SingleFileData.cs" />
+    <Compile Include="FileData\SingleFileData.cs" />
     <Compile Include="TranslationProject\ProjectManager_TranslationProject.cs" />
     <Page Include="InputProjectNameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoadingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

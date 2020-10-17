@@ -20,3 +20,6 @@ C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\
 C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\UnityProjectTranslationTool.csproj.CopyComplete
 C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\InputProjectNameWindow.g.cs
 C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\InputProjectNameWindow.baml
+C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\LoadingWindow.g.cs
+C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\LoadingWindow.baml

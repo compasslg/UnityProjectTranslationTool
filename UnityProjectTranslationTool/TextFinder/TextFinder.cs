@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Collections.ObjectModel;
+
 namespace UnityProjectTranslationTool.TextFinder
 {
     class TextFinder
     {
-        public static List<TextEntry> FindText(string path) {
-            List<TextEntry> list = new List<TextEntry>();
+        public static ObservableCollection<TextEntry> FindText(string path, ObservableCollection<TextEntry> list) {
             StreamReader reader = new StreamReader(path);
             uint lineIndex = 1;
             for(string line = reader.ReadLine(); line != null; line = reader.ReadLine()) 

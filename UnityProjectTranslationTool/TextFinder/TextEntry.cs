@@ -8,10 +8,10 @@ namespace UnityProjectTranslationTool.TextFinder
 {
     struct TextEntry
     {
-        public uint line;
-        public uint index;
-        public string text;
-        public string translation;
+        public uint line { get; }
+        public uint index { get; }
+        public string text { get; }
+        public string translation { get; set; }
         public TextEntry(uint line, uint index, string text, string translation)
         {
             this.line = line;
