@@ -11,6 +11,7 @@ namespace UnityProjectTranslationTool.TranslationProject
     static partial class ProjectManager 
     {
         public static void OpenUnityProject(string projName, string path) {
+            curState = ProgressState.LoadingUnityProject;
             // Enqueue progress
             strBuilder.Clear();
             strBuilder.Append("Start opening unity project at: ");

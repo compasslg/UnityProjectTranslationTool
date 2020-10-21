@@ -124,5 +124,6 @@ namespace UnityProjectTranslationTool
             Menu_SaveAs.IsEnabled = enable;
             Menu_Apply.IsEnabled = enable;
         }
+
     }
 }

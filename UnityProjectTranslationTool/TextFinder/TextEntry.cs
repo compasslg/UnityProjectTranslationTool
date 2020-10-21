@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace UnityProjectTranslationTool.TextFinder
 {
-    struct TextEntry
+    class TextEntry
     {
         public uint line { get; }
         public uint index { get; }
         public string text { get; }
-        public string translation { get; set; }
+        public string translation {get; set;}
         public TextEntry(uint line, uint index, string text, string translation)
         {
             this.line = line;

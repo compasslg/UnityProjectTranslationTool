@@ -25,57 +25,71 @@ namespace UnityProjectTranslationTool.TranslationProject
             //strBuilder.Append(projPath);
             //progressQueue.Clear();
             //progressQueue.Enqueue(strBuilder.ToString());
-
+            curState = ProgressState.LoadingTranslationProject;
             curProjPath = projPath;
-            StreamReader reader = new StreamReader(projPath);
+            StreamReader reader = new StreamReader(projPath, encoding);
             projectData = new ProjectData(reader.ReadLine(), reader.ReadLine());
+            reader.ReadLine();
             OpenTranslationProjectHelper(reader, projectData);
             reader.Close();
         }
 
         private static void OpenTranslationProjectHelper(StreamReader reader, BaseFileData cur)
         {
+            if (cur is SingleFileData)
+                OpenTranslationProjectHelper(reader, cur as SingleFileData);
+            else if (cur is FolderData)
+                OpenTranslationProjectHelper(reader, cur as FolderData);
+            else
+                throw new Exception.ProjectCorruptedException(projectData.name, cur.name);
+        }
+
+        private static void OpenTranslationProjectHelper(StreamReader reader, SingleFileData cur)
+        {
             // append loading progress
             AppendProgress(cur.name);
-
             string line = reader.ReadLine();
-            // Base Case: end of file scope
-            if (line.Length == 0 || line[0] == '}')
-                return;
 
-            // FileData
-            if (line[0] == '{')
+            while (line.Length != 0 && line[0] != '}')
             {
-                FolderData dir = cur as FolderData;
-                if (dir == null) throw new Exception.ProjectCorruptedException(projectData.name, line);
-                BaseFileData file;
-                // single file
-                if (line[1] == '#')
-                    file = new SingleFileData(line.Substring(2), dir);
-                // folder
-                else
-                    file = new FolderData(line.Substring(2), dir);
-                dir.files.Add(file);
-                OpenTranslationProjectHelper(reader, file);
-                return;
-            }
-            // TextEntries
-            SingleFileData code = cur as SingleFileData;
-            if(code == null) throw new Exception.ProjectCorruptedException(projectData.name, line);
-            while (line != null && line[0] != '}')
-            {
-                code.texts.Add(Text2TextEntry(line));
+                cur.texts.Add(Text2TextEntry(line));
                 line = reader.ReadLine();
             }
+        }
 
+        private static void OpenTranslationProjectHelper(StreamReader reader, FolderData cur)
+        {
+            // append loading progress
+            AppendProgress(cur.name);
+            string line = reader.ReadLine();
+            
+            while (line.Length != 0 && line[0] != '}')
+            {
+                if(line[0] == '{')
+                {
+                    BaseFileData file;
+                    // single file
+                    if (line[1] == '#')
+                        file = new SingleFileData(line.Substring(2), cur);
+                    // folder
+                    else
+                        file = new FolderData(line.Substring(2), cur);
+                    cur.files.Add(file);
+                    OpenTranslationProjectHelper(reader, file);
+                }
+                line = reader.ReadLine();
+            }
         }
 
         public static void SaveTranslationProject(string projPath)
         {
-            StreamWriter writer = new StreamWriter(File.OpenWrite(projPath));
+            curState = ProgressState.Saving;
+            StreamWriter writer = new StreamWriter(projPath, false, encoding);
             writer.WriteLine(Path.GetFileNameWithoutExtension(projPath));
             writer.WriteLine(projectData.path);
+            writer.WriteLine("{");
             SaveTranslationProjectHelper(writer, projectData);
+            writer.WriteLine("}");
             writer.Close();
         }
 
@@ -84,15 +98,17 @@ namespace UnityProjectTranslationTool.TranslationProject
             // iterate over all file instances in the current folder
             foreach(BaseFileData file in curFolder.files)
             {
+                AppendProgress(file.name);
                 writer.WriteLine(FileData2Text(file));
                 // folder : recurse
-                if(file is FolderData)
-                    SaveTranslationProjectHelper(writer, curFolder);
+                if (file is FolderData)
+                    SaveTranslationProjectHelper(writer, file as FolderData);
                 // file : iterate over all text entries
                 else
-                    foreach (TextEntry entry in (file as SingleFileData).texts) TextEntry2Text(entry);
+                    foreach (TextEntry entry in (file as SingleFileData).texts) writer.WriteLine(TextEntry2Text(entry));
                 writer.WriteLine("}");
             }
+            writer.Flush();
         }
 
 

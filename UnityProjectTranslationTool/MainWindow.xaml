@@ -35,10 +35,11 @@
             </TreeView>
             <DataGrid x:Name="TextEntryGrid" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="column_line" Header="Line" Binding="{Binding line}" Width="50"/>
-                    <DataGridTextColumn x:Name="column_index" Header="Index" Binding="{Binding index}" Width="50"/>
-                    <DataGridTextColumn x:Name="column_text" Header="Text" Binding="{Binding text}" Width="Auto" MinWidth="200"/>
+                    <DataGridTextColumn x:Name="column_line" Header="Line" Binding="{Binding line}" Width="50" IsReadOnly="True"/>
+                    <DataGridTextColumn x:Name="column_index" Header="Index" Binding="{Binding index}" Width="50" IsReadOnly="True"/>
+                    <DataGridTextColumn x:Name="column_text" Header="Text" Binding="{Binding text}" Width="Auto" MinWidth="200" IsReadOnly="True"/>
                     <DataGridTextColumn x:Name="column_translation" Header="Translation" Binding="{Binding translation}" Width="Auto" MinWidth="200" IsReadOnly="False"/>
+                    
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

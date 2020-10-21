@@ -10,9 +10,12 @@ namespace UnityProjectTranslationTool.TranslationProject
     static partial class ProjectManager
     {
         public static ProjectData projectData;
+        public static Encoding encoding = Encoding.GetEncoding("GB2312");
         public const string spliter = "$-$";
         public static Queue<string> progressQueue = new Queue<string>();
         public static bool onProgress;
+        public enum ProgressState {LoadingUnityProject, LoadingTranslationProject, Saving}
+        public static ProgressState curState;
 
         public static void PrepareProgress()
         {
@@ -24,10 +27,20 @@ namespace UnityProjectTranslationTool.TranslationProject
         {
             onProgress = false;
         }
+
+        public static void SetState(ProgressState state)
+        {
+            curState = state;
+            
+        }
+
         public static void AppendProgress(string cur)
         {
             strBuilder.Clear();
-            strBuilder.Append("Loading ");
+            if(curState == ProgressState.Saving)
+                strBuilder.Append("Saving ");
+            else
+                strBuilder.Append("Loading ");
             strBuilder.Append(cur);
             Trace.WriteLine(strBuilder.ToString());
             /*

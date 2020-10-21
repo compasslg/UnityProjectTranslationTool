@@ -13,6 +13,7 @@ namespace UnityProjectTranslationTool.TextFinder
         public static ObservableCollection<TextEntry> FindText(string path, ObservableCollection<TextEntry> list) {
             StreamReader reader = new StreamReader(path);
             uint lineIndex = 1;
+            
             for(string line = reader.ReadLine(); line != null; line = reader.ReadLine()) 
             {
                 string[] arr = line.Split('"');
@@ -22,18 +23,26 @@ namespace UnityProjectTranslationTool.TextFinder
                     // skip all the cases where the string doesn't really represent a text in game
                     if (arr[i - 1].Contains("SetInt"))
                         continue;
-                    else if (arr[i - 1].Contains("SetBool"))
+                    if (arr[i - 1].Contains("SetBool"))
                         continue;
-                    else if (arr[i - 1].Contains("SetTrigger"))
+                    if (arr[i - 1].Contains("SetTrigger"))
                         continue;
-                    else if (arr[i - 1].Contains("Find"))
+                    if (arr[i - 1].Contains("Find"))
                         continue;
-
+                    if (arr[i - 1].Contains("SetColor"))
+                        continue;
+                    string trimed = arr[i].Trim();
+                    if (trimed.Length < 2)
+                        continue;
+                    if (trimed.Length < 10 && double.TryParse(trimed, out _))
+                        continue;
                     // pick out the text
                     list.Add(new TextEntry(lineIndex, (i - 1) / 2, arr[i], null));
                 }
                 lineIndex++;
             }
+
+            reader.Close();
             return list;
         }
     }
