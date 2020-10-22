@@ -25,6 +25,8 @@ namespace UnityProjectTranslationTool.TranslationProject
             //strBuilder.Append(projPath);
             //progressQueue.Clear();
             //progressQueue.Enqueue(strBuilder.ToString());
+            projectData = null;
+            GC.Collect();
             curState = ProgressState.LoadingTranslationProject;
             curProjPath = projPath;
             StreamReader reader = new StreamReader(projPath, encoding);
@@ -32,6 +34,7 @@ namespace UnityProjectTranslationTool.TranslationProject
             reader.ReadLine();
             OpenTranslationProjectHelper(reader, projectData);
             reader.Close();
+            reader.Dispose();
         }
 
         private static void OpenTranslationProjectHelper(StreamReader reader, BaseFileData cur)
@@ -73,7 +76,7 @@ namespace UnityProjectTranslationTool.TranslationProject
                         file = new SingleFileData(line.Substring(2), cur);
                     // folder
                     else
-                        file = new FolderData(line.Substring(2), cur);
+                        file = new FolderData(line.Substring(1), cur);
                     cur.files.Add(file);
                     OpenTranslationProjectHelper(reader, file);
                 }
@@ -124,8 +127,8 @@ namespace UnityProjectTranslationTool.TranslationProject
             if (arr.Length != 4)
                 throw new Exception.ProjectCorruptedException(projectData.name, text);
 
-            uint line = uint.Parse(arr[0]);
-            uint index = uint.Parse(arr[1]);
+            int line = int.Parse(arr[0]);
+            int index = int.Parse(arr[1]);
             return new TextEntry(line, index, arr[2], arr[3]);
         } 
 

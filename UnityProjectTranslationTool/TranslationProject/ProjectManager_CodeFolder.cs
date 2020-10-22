@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using UnityProjectTranslationTool.FileData;
+using UnityProjectTranslationTool.TextFinder;
 
 namespace UnityProjectTranslationTool.TranslationProject
 {
     static partial class ProjectManager 
     {
         public static void OpenUnityProject(string projName, string path) {
+            projectData = null;
+            GC.Collect();
             curState = ProgressState.LoadingUnityProject;
             // Enqueue progress
             strBuilder.Clear();
@@ -22,6 +25,40 @@ namespace UnityProjectTranslationTool.TranslationProject
             projectData = new ProjectData(projName, path);
             ScanFiles(path, projectData);
         }
+
+        public static void ApplyTranslation(string path, FolderData curFolder)
+        {
+            foreach(BaseFileData file in curFolder.files)
+            {
+                string curPath = Path.Combine(path, file.name);
+                // folder
+                if(file is FolderData)
+                {
+                    ApplyTranslation(curPath, file as FolderData);
+                    continue;
+                }
+
+                // file
+                string[] lines = File.ReadAllLines(curPath);
+                string[] parts = null;
+                int curLine = -1;
+                foreach(TextEntry entry in (file as SingleFileData).texts)
+                {
+                    if (curLine != (entry.line - 1))
+                    {
+                        if (curLine >= 0 && parts != null)
+                            lines[curLine] = string.Join("\"", parts);
+                        curLine = entry.line - 1;
+                        parts = lines[curLine].Split('"');
+                        
+                    }
+
+                    parts[entry.index] = entry.translation;
+                }
+                File.WriteAllLines(curPath, lines);
+            }
+        }
+
         private static void ScanFiles(string path, FolderData curFolder)
         {
             // iterate over all files in the current directory

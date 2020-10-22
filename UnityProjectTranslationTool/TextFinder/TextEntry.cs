@@ -9,11 +9,11 @@ namespace UnityProjectTranslationTool.TextFinder
 {
     class TextEntry
     {
-        public uint line { get; }
-        public uint index { get; }
+        public int line { get; }
+        public int index { get; }
         public string text { get; }
         public string translation {get; set;}
-        public TextEntry(uint line, uint index, string text, string translation)
+        public TextEntry(int line, int index, string text, string translation)
         {
             this.line = line;
             this.index = index;

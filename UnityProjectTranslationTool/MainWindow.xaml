@@ -11,13 +11,20 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="Open Translation Project" Click="OpenTranslationProject"/>
-                <MenuItem x:Name="Menu_Save" Header="Save" Click="Save"/>
-                <MenuItem x:Name="Menu_SaveAs" Header="Save as" Click="SaveAs"/>
-                <MenuItem x:Name="Menu_Apply" Header="Apply Translation"/>
+                <MenuItem Header="Open Translation Project" Click="Event_OpenTranslationProject"/>
+                <MenuItem x:Name="Menu_Save" Header="Save" Click="Event_Save"/>
+                <MenuItem x:Name="Menu_SaveAs" Header="Save as" Click="Event_SaveAs"/>
+                <MenuItem x:Name="Menu_Apply" Header="Apply Translation" Click="Event_ApplyTranslation"/>
                 <Separator/>
-                <MenuItem Header="Open Unity Script Folder" Click="OpenUnityProject"/>
+                <MenuItem Header="Open Source Code Folder" Click="Event_OpenSourceCodeFolder"/>
             </MenuItem>
+
+            <MenuItem Header="_Setting">
+                <MenuItem Header="Encodings"/>
+                <MenuItem Header="Languages"/>
+                <MenuItem Header="Filters"/>
+            </MenuItem>
+            
             <MenuItem Header="_About">
                 <MenuItem Header="Documentation"/>
             </MenuItem>

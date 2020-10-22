@@ -12,13 +12,13 @@ namespace UnityProjectTranslationTool.TextFinder
     {
         public static ObservableCollection<TextEntry> FindText(string path, ObservableCollection<TextEntry> list) {
             StreamReader reader = new StreamReader(path);
-            uint lineIndex = 1;
+            int lineIndex = 1;
             
             for(string line = reader.ReadLine(); line != null; line = reader.ReadLine()) 
             {
                 string[] arr = line.Split('"');
                 // read all the text
-                for(uint i = 1; i < arr.Length; i += 2)
+                for(int i = 1; i < arr.Length; i += 2)
                 {
                     // skip all the cases where the string doesn't really represent a text in game
                     if (arr[i - 1].Contains("SetInt"))
@@ -43,6 +43,7 @@ namespace UnityProjectTranslationTool.TextFinder
             }
 
             reader.Close();
+            reader.Dispose();
             return list;
         }
     }

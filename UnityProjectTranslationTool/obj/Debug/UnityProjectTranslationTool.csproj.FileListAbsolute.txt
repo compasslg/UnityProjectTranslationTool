@@ -23,3 +23,7 @@ C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\
 C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\LoadingWindow.g.cs
 C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\LoadingWindow.baml
+C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\bin\Debug\UnityProjectTranslationTool.exe.manifest
+C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\bin\Debug\UnityProjectTranslationTool.application
+C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\UnityProjectTranslationTool.exe.manifest
+C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Debug\UnityProjectTranslationTool.application

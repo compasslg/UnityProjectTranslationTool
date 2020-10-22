@@ -38,7 +38,7 @@ namespace UnityProjectTranslationTool
             column_translation.Width = width / 2;
         }
 
-        private void OpenUnityProject(object sender, RoutedEventArgs e)
+        private void Event_OpenSourceCodeFolder(object sender, RoutedEventArgs e)
         {
 
             string path;
@@ -74,7 +74,7 @@ namespace UnityProjectTranslationTool
             OnCurProjectStateChange(ProjectManager.projectData != null);
         }
 
-        private void OpenTranslationProject(object sender, RoutedEventArgs e)
+        private void Event_OpenTranslationProject(object sender, RoutedEventArgs e)
         {
             //LoadingWindow loadingWindow = new LoadingWindow();
             //loadingWindow.Show();
@@ -88,17 +88,17 @@ namespace UnityProjectTranslationTool
             OnCurProjectStateChange(ProjectManager.projectData != null);
         }
 
-        private void Save(object sender, RoutedEventArgs e)
+        private void Event_Save(object sender, RoutedEventArgs e)
         {
             if(ProjectManager.curProjPath == null)
             {
-                SaveAs(sender, e);
+                Event_SaveAs(sender, e);
                 return;
             }
             ProjectManager.SaveTranslationProject(ProjectManager.curProjPath);
         }
 
-        private void SaveAs(object sender, RoutedEventArgs e)
+        private void Event_SaveAs(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Unity Translation Project Files (*.utp) | *.utp";
@@ -113,7 +113,7 @@ namespace UnityProjectTranslationTool
 
         private void OnSelectedFileChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            SingleFileData selected = (SingleFileData)Files.SelectedItem;
+            SingleFileData selected = Files.SelectedItem as SingleFileData;
             if (selected == null) return;
             TextEntryGrid.ItemsSource = selected.texts;
         }
@@ -125,5 +125,9 @@ namespace UnityProjectTranslationTool
             Menu_Apply.IsEnabled = enable;
         }
 
+        private void Event_ApplyTranslation(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
