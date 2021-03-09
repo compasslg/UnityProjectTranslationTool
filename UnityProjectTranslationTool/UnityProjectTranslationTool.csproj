@@ -69,6 +69,18 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Cecil, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.11.3.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.11.3\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
@@ -90,7 +102,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AssemblyData\AssemblyTextEntry.cs" />
+    <Compile Include="AssemblyData\AssemblyMethodData.cs" />
+    <Compile Include="AssemblyData\AssemblyTypeData.cs" />
+    <Compile Include="DataElement\BaseDataContainer.cs" />
+    <Compile Include="DataElement\BaseDataElement.cs" />
+    <Compile Include="DataElement\BaseDataEntry.cs" />
+    <Compile Include="DataElement\ProjectData.cs" />
     <Compile Include="Exception\ProjectCorruptedException.cs" />
+    <Compile Include="FileData\FolderData.cs" />
     <Compile Include="InputProjectNameWindow.xaml.cs">
       <DependentUpon>InputProjectNameWindow.xaml</DependentUpon>
     </Compile>
@@ -99,10 +119,8 @@
     </Compile>
     <Compile Include="TextFinder\TextEntry.cs" />
     <Compile Include="TextFinder\TextFinder.cs" />
-    <Compile Include="FileData\BaseFileData.cs" />
-    <Compile Include="FileData\FolderData.cs" />
-    <Compile Include="FileData\ProjectData.cs" />
     <Compile Include="TranslationProject\ProjectManager.cs" />
+    <Compile Include="TranslationProject\ProjectManager_Assembly.cs" />
     <Compile Include="TranslationProject\ProjectManager_CodeFolder.cs" />
     <Compile Include="FileData\SingleFileData.cs" />
     <Compile Include="TranslationProject\ProjectManager_TranslationProject.cs" />
@@ -167,5 +185,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

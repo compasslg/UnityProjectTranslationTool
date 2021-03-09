@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using UnityProjectTranslationTool.FileData;
 using UnityProjectTranslationTool.TextFinder;
+using UnityProjectTranslationTool.DataElement;
 
 namespace UnityProjectTranslationTool.TranslationProject
 {
@@ -26,9 +27,9 @@ namespace UnityProjectTranslationTool.TranslationProject
             ScanFiles(path, projectData);
         }
 
-        public static void ApplyTranslation(string path, FolderData curFolder)
+        public static void ApplyTranslation(string path, BaseDataContainer curFolder)
         {
-            foreach(BaseFileData file in curFolder.files)
+            foreach(BaseDataElement file in curFolder.children)
             {
                 string curPath = Path.Combine(path, file.name);
                 // folder
@@ -44,22 +45,30 @@ namespace UnityProjectTranslationTool.TranslationProject
                 int curLine = -1;
                 foreach(TextEntry entry in (file as SingleFileData).texts)
                 {
+                    // new line
                     if (curLine != (entry.line - 1))
                     {
+                        // join the parts and update the previous line
                         if (curLine >= 0 && parts != null)
                             lines[curLine] = string.Join("\"", parts);
+                        // update currently processing line and split to parts
                         curLine = entry.line - 1;
                         parts = lines[curLine].Split('"');
                         
                     }
 
-                    parts[entry.index] = entry.translation;
+                    // only update if translation is made; otherwise remain the same
+                    if(entry.translation != null && entry.translation.Length > 0)
+                        parts[2 * entry.index + 1] = entry.translation;
                 }
+
+                lines[curLine] = string.Join("\"", parts);
+
                 File.WriteAllLines(curPath, lines);
             }
         }
 
-        private static void ScanFiles(string path, FolderData curFolder)
+        private static void ScanFiles(string path, BaseDataContainer curFolder)
         {
             // iterate over all files in the current directory
             // read information intoa SingleFileData and add it to projectData
@@ -72,7 +81,7 @@ namespace UnityProjectTranslationTool.TranslationProject
                 SingleFileData fileData = new SingleFileData(Path.GetFileName(filename), curFolder);
                 TextFinder.TextFinder.FindText(filename, fileData.texts);
                 if(fileData.texts.Count > 0)
-                    curFolder.files.Add(fileData);
+                    curFolder.AddChild(fileData);
             }
 
             // iterate over all directories and scan recursively
@@ -84,8 +93,8 @@ namespace UnityProjectTranslationTool.TranslationProject
                 // load folder
                 FolderData folder = new FolderData(Path.GetFileName(dirname), curFolder);
                 ScanFiles(dirname, folder);
-                if(folder.files.Count > 0)
-                    curFolder.files.Add(folder);
+                if(folder.children.Count > 0)
+                    curFolder.AddChild(folder);
             }
         }
     }

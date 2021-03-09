@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UnityProjectTranslationTool"
         xmlns:file ="clr-namespace:UnityProjectTranslationTool.FileData"
-        
+        xmlns:asdata="clr-namespace:UnityProjectTranslationTool.AssemblyData"
+        xmlns:de ="clr-namespace:UnityProjectTranslationTool.DataElement"
         mc:Ignorable="d"
         Title="Unity Project Translation Tool" Height="450" Width="800">
     <DockPanel>
@@ -16,6 +17,7 @@
                 <MenuItem x:Name="Menu_SaveAs" Header="Save as" Click="Event_SaveAs"/>
                 <MenuItem x:Name="Menu_Apply" Header="Apply Translation" Click="Event_ApplyTranslation"/>
                 <Separator/>
+                <MenuItem Header="Open Assembly" Click="Event_OpenAssembly"/>
                 <MenuItem Header="Open Source Code Folder" Click="Event_OpenSourceCodeFolder"/>
             </MenuItem>
 
@@ -32,18 +34,16 @@
         <DockPanel Margin="10">
             <TreeView x:Name="Files" DockPanel.Dock="Left" Width="Auto" MinWidth="140" MaxWidth="200" VerticalAlignment="Stretch" SelectedItemChanged="OnSelectedFileChanged">
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type file:FolderData}" ItemsSource="{Binding files}">
+                    <HierarchicalDataTemplate DataType="{x:Type de:BaseDataContainer}" ItemsSource="{Binding children}">
                         <TextBlock Text="{Binding name}"/>
                     </HierarchicalDataTemplate>
-                    <DataTemplate DataType="{x:Type file:SingleFileData}">
+                    <DataTemplate DataType="{x:Type de:BaseDataElement}">
                         <TextBlock Text="{Binding name}"/>
                     </DataTemplate>
                 </TreeView.Resources>
             </TreeView>
             <DataGrid x:Name="TextEntryGrid" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="column_line" Header="Line" Binding="{Binding line}" Width="50" IsReadOnly="True"/>
-                    <DataGridTextColumn x:Name="column_index" Header="Index" Binding="{Binding index}" Width="50" IsReadOnly="True"/>
                     <DataGridTextColumn x:Name="column_text" Header="Text" Binding="{Binding text}" Width="Auto" MinWidth="200" IsReadOnly="True"/>
                     <DataGridTextColumn x:Name="column_translation" Header="Translation" Binding="{Binding translation}" Width="Auto" MinWidth="200" IsReadOnly="False"/>
                     

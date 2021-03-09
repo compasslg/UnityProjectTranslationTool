@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using UnityProjectTranslationTool.FileData;
 using UnityProjectTranslationTool.TextFinder;
+using UnityProjectTranslationTool.DataElement;
 namespace UnityProjectTranslationTool.TranslationProject
 {
     static partial class ProjectManager
@@ -37,12 +38,12 @@ namespace UnityProjectTranslationTool.TranslationProject
             reader.Dispose();
         }
 
-        private static void OpenTranslationProjectHelper(StreamReader reader, BaseFileData cur)
+        private static void OpenTranslationProjectHelper(StreamReader reader, BaseDataElement cur)
         {
             if (cur is SingleFileData)
                 OpenTranslationProjectHelper(reader, cur as SingleFileData);
-            else if (cur is FolderData)
-                OpenTranslationProjectHelper(reader, cur as FolderData);
+            else if (cur is BaseDataContainer)
+                OpenTranslationProjectHelper(reader, cur as BaseDataContainer);
             else
                 throw new Exception.ProjectCorruptedException(projectData.name, cur.name);
         }
@@ -60,7 +61,7 @@ namespace UnityProjectTranslationTool.TranslationProject
             }
         }
 
-        private static void OpenTranslationProjectHelper(StreamReader reader, FolderData cur)
+        private static void OpenTranslationProjectHelper(StreamReader reader, BaseDataContainer cur)
         {
             // append loading progress
             AppendProgress(cur.name);
@@ -70,14 +71,14 @@ namespace UnityProjectTranslationTool.TranslationProject
             {
                 if(line[0] == '{')
                 {
-                    BaseFileData file;
+                    BaseDataElement file;
                     // single file
                     if (line[1] == '#')
                         file = new SingleFileData(line.Substring(2), cur);
                     // folder
                     else
                         file = new FolderData(line.Substring(1), cur);
-                    cur.files.Add(file);
+                    cur.AddChild(file);
                     OpenTranslationProjectHelper(reader, file);
                 }
                 line = reader.ReadLine();
@@ -96,10 +97,10 @@ namespace UnityProjectTranslationTool.TranslationProject
             writer.Close();
         }
 
-        private static void SaveTranslationProjectHelper(StreamWriter writer, FolderData curFolder)
+        private static void SaveTranslationProjectHelper(StreamWriter writer, BaseDataContainer curFolder)
         {
             // iterate over all file instances in the current folder
-            foreach(BaseFileData file in curFolder.files)
+            foreach(BaseDataElement file in curFolder.children)
             {
                 AppendProgress(file.name);
                 writer.WriteLine(FileData2Text(file));
@@ -145,7 +146,7 @@ namespace UnityProjectTranslationTool.TranslationProject
             return strBuilder.ToString();
         }
 
-        private static string FileData2Text(BaseFileData data)
+        private static string FileData2Text(BaseDataElement data)
         {
             strBuilder.Clear();
             strBuilder.Append("{");

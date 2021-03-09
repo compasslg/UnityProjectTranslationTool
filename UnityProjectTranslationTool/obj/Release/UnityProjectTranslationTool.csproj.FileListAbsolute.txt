@@ -26,3 +26,4 @@ C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\
 C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\bin\Release\UnityProjectTranslationTool.application
 C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Release\UnityProjectTranslationTool.exe.manifest
 C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Release\UnityProjectTranslationTool.application
+C:\Users\Hanwei Li\Documents\MyDevelopment\Projects\UnityProjectTranslationTool\UnityProjectTranslationTool\obj\Release\UnityProjectTranslationTool.csprojAssemblyReference.cache

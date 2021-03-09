@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityProjectTranslationTool.DataElement;
 
 namespace UnityProjectTranslationTool.FileData
 {
-    class SingleFileData : BaseFileData
+    class SingleFileData : BaseDataElement
     {
         public ObservableCollection<TextFinder.TextEntry> texts { get; }
-        public SingleFileData(string name, FolderData dir) : base(name, dir)
+        public SingleFileData(string name, BaseDataContainer dir) : base(name, dir)
         {
             texts = new ObservableCollection<TextFinder.TextEntry>();
         }

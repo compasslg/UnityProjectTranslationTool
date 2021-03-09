@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using UnityProjectTranslationTool.DataElement;
 namespace UnityProjectTranslationTool.FileData
 {
-    class FolderData : BaseFileData
+    class FolderData : BaseDataContainer
     {
-        public ObservableCollection<BaseFileData> files { get; }
-        public FolderData(string name, FolderData dir) : base(name, dir)
+        public FolderData(string name, BaseDataContainer dir) : base(name, dir)
         {
-            files = new ObservableCollection<BaseFileData>();
+            children = new List<BaseDataElement>();
         }
     }
 }

@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnityProjectTranslationTool.FileData
+namespace UnityProjectTranslationTool.DataElement
 {
-    class ProjectData : FolderData
+    class ProjectData : BaseDataContainer
     {
         public string path;
         public ProjectData(string name, string path) : base(name, null)
         {
             this.path = path;
+            children = new List<BaseDataElement>();
         }
     }
 }

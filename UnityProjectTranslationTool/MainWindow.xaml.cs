@@ -17,6 +17,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
 using UnityProjectTranslationTool.TranslationProject;
 using UnityProjectTranslationTool.FileData;
+using UnityProjectTranslationTool.DataElement;
 namespace UnityProjectTranslationTool
 {
     /// <summary>
@@ -33,11 +34,23 @@ namespace UnityProjectTranslationTool
 
         public void UpdateSize()
         {
-            double width = TextEntryGrid.Width - column_index.ActualWidth - column_line.ActualWidth;
+            double width = TextEntryGrid.Width;
             column_text.Width = width / 2;
             column_translation.Width = width / 2;
         }
+        private void Event_OpenAssembly(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "C# dll (*.dll)|*.dll|C# Executable (*.exe)|*.exe|All File (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filename = System.IO.Path.GetFileName(openFileDialog.FileName);
+                ProjectManager.OpenUnityGameAssembly(filename, openFileDialog.FileName);
+                Files.ItemsSource = ProjectManager.projectData.children;
+            }
+            OnCurProjectStateChange(ProjectManager.projectData != null);
 
+        }
         private void Event_OpenSourceCodeFolder(object sender, RoutedEventArgs e)
         {
 
@@ -70,7 +83,7 @@ namespace UnityProjectTranslationTool
             //loadingWindow.Show();
             ProjectManager.OpenUnityProject("Untitled", path);
             //ProjectManager.EndProgress();
-            Files.ItemsSource = ProjectManager.projectData.files;
+            Files.ItemsSource = ProjectManager.projectData.children;
             OnCurProjectStateChange(ProjectManager.projectData != null);
         }
 
@@ -83,7 +96,7 @@ namespace UnityProjectTranslationTool
             if(openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ProjectManager.OpenTranslationProject(openFileDialog.FileName);
-                Files.ItemsSource = ProjectManager.projectData.files;
+                Files.ItemsSource = ProjectManager.projectData.children;
             }
             OnCurProjectStateChange(ProjectManager.projectData != null);
         }
@@ -110,6 +123,12 @@ namespace UnityProjectTranslationTool
                 ProjectManager.SaveTranslationProject(saveFileDialog.FileName);
             }
         }
+        private void Event_ApplyTranslation(object sender, RoutedEventArgs e)
+        {
+            ProjectData proj = ProjectManager.projectData;
+            string curProjPath = proj.path;
+            ProjectManager.ApplyTranslation(curProjPath, proj);
+        }
 
         private void OnSelectedFileChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -125,9 +144,6 @@ namespace UnityProjectTranslationTool
             Menu_Apply.IsEnabled = enable;
         }
 
-        private void Event_ApplyTranslation(object sender, RoutedEventArgs e)
-        {
 
-        }
     }
 }
