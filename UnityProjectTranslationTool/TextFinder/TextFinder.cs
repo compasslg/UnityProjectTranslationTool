@@ -10,6 +10,7 @@ namespace UnityProjectTranslationTool.TextFinder
 {
     class TextFinder
     {
+        public const string FilterText = "_/";
         public static ObservableCollection<TextEntry> FindText(string path, ObservableCollection<TextEntry> list) {
             StreamReader reader = new StreamReader(path);
             int lineIndex = 1;
@@ -45,6 +46,20 @@ namespace UnityProjectTranslationTool.TextFinder
             reader.Close();
             reader.Dispose();
             return list;
+        }
+
+        public static bool IsValidText(string text)
+        {
+            string trimed = text.Trim();
+            if (trimed.Length < 2)
+                return false;
+            if (trimed.Length < 10 && double.TryParse(trimed, out _))
+                return false;
+            if (trimed[0] == '_')
+                return false;
+            if (trimed[0] == '/')
+                return false;
+            return true;
         }
     }
 }

@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using System.IO;
 using UnityProjectTranslationTool.TranslationProject;
 using UnityProjectTranslationTool.FileData;
 using UnityProjectTranslationTool.DataElement;
+using UnityProjectTranslationTool.AssemblyData;
 namespace UnityProjectTranslationTool
 {
     /// <summary>
@@ -132,9 +119,16 @@ namespace UnityProjectTranslationTool
 
         private void OnSelectedFileChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            SingleFileData selected = Files.SelectedItem as SingleFileData;
-            if (selected == null) return;
-            TextEntryGrid.ItemsSource = selected.texts;
+            if (Files.SelectedItem is SingleFileData singleFileData)
+            {
+                TextEntryGrid.ItemsSource = singleFileData.texts;
+                System.Diagnostics.Debug.WriteLine(singleFileData.texts.Count);
+            }
+            else if (Files.SelectedItem is AssemblyMethodData assemblyMethodData)
+            {
+                TextEntryGrid.ItemsSource = assemblyMethodData.texts;
+                System.Diagnostics.Debug.WriteLine(assemblyMethodData.texts.Count);
+            }
         }
 
         private void OnCurProjectStateChange(bool enable)

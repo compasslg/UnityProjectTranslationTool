@@ -56,6 +56,8 @@ namespace UnityProjectTranslationTool.TranslationProject
                 if (instructions[i].OpCode == OpCodes.Ldstr)
                 {
                     string text = (string)instructions[i].Operand;
+                    if (!TextFinder.TextFinder.IsValidText(text))
+                        continue;
                     AssemblyTextEntry textEntry = new AssemblyTextEntry(i, text, null, methodData);
                     methodData.texts.Add(textEntry);
                 }

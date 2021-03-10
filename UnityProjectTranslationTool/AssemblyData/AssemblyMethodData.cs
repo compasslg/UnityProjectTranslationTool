@@ -8,7 +8,6 @@ namespace UnityProjectTranslationTool.AssemblyData
         public AssemblyMethodData(string name, AssemblyTypeData typeData) : base(name, typeData)
         {
             texts = new List<AssemblyTextEntry>();
-            typeData.methods.Add(this);
         }
         
     }
